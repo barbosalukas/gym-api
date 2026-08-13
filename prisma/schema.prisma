@@ -12,11 +12,17 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  ADMIN
+  MEMBER
+}
+
 model User {
   id            String    @id @default(dbgenerated("gen_random_uuid()::text"))
   name          String
   email         String    @unique
   password_hash String
+  role          Role      @default(MEMBER)
   created_at    DateTime  @default(now())
   checkIns      CheckIn[]
 }
@@ -29,7 +35,7 @@ model CheckIn {
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
   gym     Gym    @relation(fields: [gym_id], references: [id])
-  gym_id   String
+  gym_id  String
 
   @@map("check_ins")
 }
@@ -45,4 +51,3 @@ model Gym {
 
   @@map("gyms")
 }
-

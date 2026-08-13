@@ -4,7 +4,8 @@ import { PrismaClient } from "../generated/prisma/client";
 
 const connectionString = `${process.env.DATABASE_URL}`;
 
-const schema = new URL(connectionString).searchParams.get("schema") || "public";
+export const schema =
+  new URL(connectionString).searchParams.get("schema") || "public";
 
 const adapter = new PrismaPg({ connectionString }, { schema });
 const prisma = new PrismaClient({ adapter });
